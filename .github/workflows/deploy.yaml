@@ -21,7 +21,6 @@ jobs:
             - name: Configure AWS Credentials (OIDC)
               uses: aws-actions/configure-aws-credentials@v4
               with:
-                  # Make sure this is your correct Role ARN
                   role-to-assume: arn:aws:iam::984649215898:role/GitHubActions-AdminRole
                   aws-region: us-east-1
 
@@ -36,8 +35,6 @@ jobs:
 
             - name: Terraform Apply
               run: terraform apply -auto-approve
-
-            # --- NEW STEP ADDED BELOW ---
 
             - name: Upload website files to S3
               run: |

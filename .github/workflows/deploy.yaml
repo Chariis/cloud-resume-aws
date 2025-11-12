@@ -2,12 +2,10 @@
 
 name: Deploy AWS Cloud Resume
 
-# This workflow runs on any push to the "main" branch
 on:
     push:
         branches: ["main"]
 
-# These are the permissions the GitHub job needs to get an OIDC token from AWS
 permissions:
     id-token: write
     contents: read
@@ -23,8 +21,8 @@ jobs:
             - name: Configure AWS Credentials (OIDC)
               uses: aws-actions/configure-aws-credentials@v4
               with:
-                  # Replace this with the ARN of the IAM role you created
-                  role-to-assume: arn:aws:iam::984649215898:role/GitHubActions-AdminRole # <-- EDIT THIS LINE
+                  # Make sure this is your correct Role ARN
+                  role-to-assume: arn:aws:iam::984649215898:role/GitHubActions-AdminRole
                   aws-region: us-east-1
 
             - name: Setup Terraform
@@ -38,3 +36,15 @@ jobs:
 
             - name: Terraform Apply
               run: terraform apply -auto-approve
+
+            # --- NEW STEP ADDED BELOW ---
+
+            - name: Upload website files to S3
+              run: |
+                  aws s3 sync . s3://resume.chigoziennadi.com \
+                    --exclude ".git/*" \
+                    --exclude ".github/*" \
+                    --exclude "main.tf" \
+                    --exclude ".terraform/*" \
+                    --exclude ".terraform.lock.hcl" \
+                    --delete

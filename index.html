@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chigozie Nnadi - Cloud & DevOps Engineer</title>
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+        integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
+    <link rel="stylesheet" href="./style.css">
+    <link rel="icon" type="image/png" href="/assets/favicon.png">
+</head>
+
+<body>
+
+    <header id="header">
+        <div class="row m-0">
+            <div class="col-3 bgcolor-black">
+                <nav class="primary-nav navbar-expand-md">
+                    <div class="site-title text-center text-light py-5">
+                        <a href="#" class="navbar-brand font-staat font-size-40">CN</a>
+                    </div>
+                    <div class="d-flex flex-column">
+                        <a href="#home" class="nav-item nav-link text-white-50 font-os font-size-16 active">Home</a>
+                        <a href="#about_me"
+                            class="nav-item nav-link text-white-50 font-os font-size-16 active">About</a>
+                        <a href="#awards"
+                            class="nav-item nav-link text-white-50 font-os font-size-16 active">Certifications</a>
+                        <a href="#portfolio"
+                            class="nav-item nav-link text-white-50 font-os font-size-16 active">Portfolio</a>
+
+                        <div class="counter-number nav-item nav-link text-white-50 font-os font-size-16 active">
+                            👀 Views: ...
+                        </div>
+                    </div>
+                </nav>
+            </div>
+        </div>
+        <button class="toggle-button"><span class="fas fa-bars fa-2x"></span></button>
+    </header>
+    <main id="site-main">
+        <div class="row m-0">
+            <div class="col-md-9 offset-md-3 px-0">
+
+                <section class="site-banner bg-light" id="home">
+                    <div class="banner-area">
+                        <div class="author text-center">
+                            <div class="author-img"></div>
+                            <h1 class="text-black font-staat font-size-40 text-uppercase py-3">Chigozie Nnadi</h1>
+                            <h5 class="text-black font-ram font-size-27">I'm a <span id="typed"></span></h5>
+                        </div>
+                    </div>
+                </section>
+                <section class="about px-4 my-5" id="about_me">
+                    <div class="me py-5">
+                        <h5 class="text-uppercase font-os font-size-16 text-muted">information</h5>
+                        <h1 class="text-uppercase font-staat font-size-34">About Me</h1>
+                    </div>
+                    <div class="row m-0">
+                        <div class="col-sm-5 pl-0">
+                            <img src="./assets/banner.png" alt="profile image" class="img-fluid">
+                        </div>
+                        <div class="col-sm-6">
+                            <h6 class="text-uppercase font-os font-size-16 text-muted">About Me</h6>
+                            <h5 class="font-ram font-size-20 py-2">I'm Charis Nnadi & a <span id="typed_2"></span></h5>
+                            <p class="font-ram text-black-50 py-2">
+                                I am a passionate Cloud and DevOps Engineer focused on building, deploying, and managing
+                                scalable, secure, and highly available solutions on AWS and Azure.
+                                My goal is to leverage automation (IaC, CI/CD) to streamline development pipelines and
+                                optimize cloud infrastructure for performance and cost.
+                                I am dedicated to continuous learning and mastering new technologies in the cloud-native
+                                landscape.
+                            </p>
+                            <div class="d-flex flex-row flex-wrap justify-content-between py-4">
+                                <div class="d-flex flex-column">
+                                    <p class="font-ram"><b>Website: </b><span
+                                            class="text-black-50">chigoziennadi.com</span></p>
+                                </div>
+                            </div>
+                            <button type="submit" onclick="window.open('/assets/Resume Chigozie Nnadi.pdf')"
+                                class="btn btn-dark text-uppercase mr-3">Download CV</button>
+                        </div>
+                    </div>
+                </section>
+                <section class="skill px-4 py-5 bg-light" id="services">
+                    <div class="ability py-3">
+                        <h5 class="text-uppercase font-os font-size-16 text-muted">Ability</h5>
+                        <h1 class="text-uppercase font-staat font-size-34">My skills</h1>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6 pl-4">
+                            <p class="font-ram font-size-16 text-black-50 pb-3">
+                                Proficient across AWS, Microsoft Azure, and Google Cloud.
+                                Expert in Infrastructure as Code (Terraform, Bicep, ARM), containerization
+                                (Docker, Kubernetes, Helm),
+                                and building automated CI/CD pipelines (GitHub Actions, Jenkins).
+                                Skilled in Python (Django), Bash, and C#.
+                            </p>
+                            <ul class="list-inline dev-icons">
+                                <li class="list-inline-item">
+                                    <i class="fab fa-aws"></i>
+                                </li>
+                                <li class="list-inline-item">
+                                    <i class="fab fa-microsoft"></i>
+                                </li>
+                                <li class="list-inline-item">
+                                    <i class="fab fa-docker"></i>
+                                </li>
+                                <li class="list-inline-item">
+                                    <i class="fab fa-git-alt"></i>
+                                </li>
+                                <li class="list-inline-item">
+                                    <i class="fab fa-python"></i>
+                                </li>
+                            </ul>
+                        </div>
+                </section>
+                <section class="awards px-4 py-5" id="awards">
+                    <div class="do py-5">
+                        <h5 class="text-uppercase font-os font-size-16 text-muted">What I have achieved</h5>
+                        <h1 class="text-uppercase font-staat font-size-34"><i class="fas fa-award"></i>
+                            Certifications</h1>
+                    </div>
+                    <div class="w-100">
+                        <ul class="fa-ul mb-0 font-ram font-size-16 text-black-50 pb-3">
+                            <li>
+                                <i class="fa-li fa fa-trophy text-warning"></i>
+                                Microsoft Certified: Azure Administrator Associate (AZ-104)
+                            </li>
+                            <li>
+                                <i class="fa-li fa fa-trophy text-warning"></i>
+                                Oracle Cloud Certified DevOps Professional
+                            </li>
+                            <li>
+                                <i class="fa-li fa fa-trophy text-warning"></i>
+                                Microsoft Certified: Azure Fundamentals (AZ-900)
+                            </li>
+                            <li>
+                                <i class="fa-li fa fa-trophy text-warning"></i>
+                                Microsoft Certified: Azure AI Fundamentals (AI-900)
+                            </li>
+                        </ul>
+                    </div>
+                </section>
+                <section class="work py-5 px-4 bg-light" id="portfolio">
+                    <div class="py-3">
+                        <h5 class="text-uppercase font-os font-size-16 text-muted">Porfolio</h5>
+                        <h1 class="text-uppercase font-staat font-size-34">My Projects</h1>
+                    </div>
+                    <div class="row">
+                        <div class="frame col-sm-4 pb-4">
+                            <a href="#"><img src="./assets/work/01.png" title="K8s Microservices App" alt="work1"
+                                    class="img-fluid"></a>
+                            <div class="details">
+                                <h2>K8s Microservices on AWS EKS</h2>
+                                <p><a href="#" title="Live Site (if any)"><i class="far fa-eye eye"></i></a></p>
+                                <p><a href="https://github.com/Chariis/microservices-project.git" title="Source Code"><i
+                                            class="fab fa-github-square giti"></i></a></p>
+                            </div>
+                        </div>
+
+                        <div class="frame col-sm-4 pb-4">
+                            <a href="#"><img src="./assets/work/02.png" title="DevSecOps Pipeline" alt="work2"
+                                    class="img-fluid"></a>
+                            <div class="details">
+                                <h2>DevSecOps Netflix Clone</h2>
+                                <p><a href="#" title="Live Site (if any)"><i class="far fa-eye eye"></i></a></p>
+                                <p><a href="https://github.com/Chariis/DevSecOps-project.git" title="Source Code"><i
+                                            class="fab fa-github-square giti"></i></a></p>
+                            </div>
+                        </div>
+
+                        <div class="frame col-sm-4 pb-4">
+                            <a href="#"><img src="./assets/work/03.png" title="AWS Cloud Resume" alt="work3"
+                                    class="img-fluid"></a>
+                            <div class="details">
+                                <h2>AWS Cloud Resume</h2>
+                                <p><a href="https://chigoziennadi.com" title="Live Site"><i
+                                            class="far fa-eye eye"></i></a></p>
+                                <p><a href="https://github.com/YOUR_USERNAME/cloud-resume-challenge"
+                                        title="Source Code"><i class="fab fa-github-square giti"></i></a></p>
+                            </div>
+                        </div>
+
+                    </div>
+                </section>
+                <footer id="footer" class="pt-5 px-3">
+                    <div id="contact_us">
+                        <div class="row bg-light py-5">
+                            <div class="col-sm-4 my-5 text-center">
+                                <h6 class="font-ram font-size-16 text-black-50">&copy;2025 Chigozie Nnadi. All rights
+                                    reserved
+                                </h6>
+                            </div>
+                            <div class="col-sm-4 my-4 text-center">
+                                <div class="footer-title">
+                                    <p class="description font-os font-size-16 text-black-50 text-uppercase">Made with ❤
+                                    </p>
+                                </div>
+                                <div class="counter-number">👀 Views: ...</div>
+                            </div>
+                            <div class="social-icons col-sm-4 my-4 text-center">
+                                <a href="http://linkedin.com/in/nnadi-charis-chigozie" target="blank">
+                                    <i class="fab fa-linkedin-in"></i>
+                                </a>
+                                <a href="https://github.com/Chariis" target="blank">
+                                    <i class="fab fa-github"></i>
+                                </a>
+                                <a href="https://twitter.com/Goziie1" target="blank">
+                                    <i class="fab fa-twitter"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </footer>
+
+            </div>
+        </div>
+    </main>
+
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+        integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+        integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+        crossorigin="anonymous"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/js/all.min.js"
+        integrity="sha256-MAgcygDRahs+F/Nk5Vz387whB4kSK9NXlDN3w58LLq0=" crossorigin="anonymous"></script>
+
+    <script src="./vendor/typed/typed.min.js"></script>
+
+    <script src="./index.js"></script>
+</body>
+
+</html>

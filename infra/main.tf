@@ -138,7 +138,8 @@ resource "aws_lambda_permission" "api_gateway_permission" {
 # --- ACM SSL CERTIFICATE ---
 data "aws_acm_certificate" "existing_cert" {
   provider = aws.us_east_1_provider
-  arn      = "arn:aws:acm:us-east-1:984649215898:certificate/bec59f89-99a1-4b4c-a0f8-9057974c5f47"
+  domain   = var.website_domain
+  statuses = ["ISSUED"]
 }
 
 provider "aws" {

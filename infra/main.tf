@@ -134,3 +134,64 @@ resource "aws_lambda_permission" "api_gateway_permission" {
   principal     = "apigateway.amazonaws.com"
   source_arn    = "${aws_apigatewayv2_api.api.execution_arn}/*/*"
 }
+
+# --- ACM SSL CERTIFICATE ---
+data "aws_acm_certificate" "existing_cert" {
+  provider = aws.us_east_1_provider
+  arn      = "arn:aws:acm:us-east-1:984649215898:certificate/bec59f89-99a1-4b4c-a0f8-9057974c5f47"
+}
+
+provider "aws" {
+  alias  = "us_east_1_provider"
+  region = "us-east-1"
+}
+
+# --- CLOUDFRONT DISTRIBUTION ---
+resource "aws_cloudfront_distribution" "cdn" {
+  origin {
+    domain_name = aws_s3_bucket_website_configuration.website_config.website_endpoint
+    origin_id   = "S3-${var.website_domain}"
+
+    custom_origin_config {
+      http_port              = 80
+      https_port             = 443
+      origin_protocol_policy = "http-only"
+      origin_ssl_protocols   = ["TLSv1.2"]
+    }
+  }
+
+  enabled         = true
+  is_ipv6_enabled = true
+  comment         = "CDN for ${var.website_domain}"
+
+  aliases = [var.website_domain]
+
+  default_cache_behavior {
+    allowed_methods  = ["GET", "HEAD"]
+    cached_methods   = ["GET", "HEAD"]
+    target_origin_id = "S3-${var.website_domain}"
+
+    forwarded_values {
+      query_string = false
+      cookies {
+        forward = "none"
+      }
+    }
+
+    viewer_protocol_policy = "redirect-to-https"
+    min_ttl                = 0
+    default_ttl            = 3600
+    max_ttl                = 86400
+  }
+
+  viewer_certificate {
+    acm_certificate_arn = data.aws_acm_certificate.existing_cert.arn
+    ssl_support_method  = "sni-only"
+  }
+
+  restrictions {
+    geo_restriction {
+      restriction_type = "none"
+    }
+  }
+}

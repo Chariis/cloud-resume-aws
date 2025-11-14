@@ -196,3 +196,79 @@ resource "aws_cloudfront_distribution" "cdn" {
     }
   }
 }
+
+
+# --- IAM ROLE FOR "GET_COUNT" LAMBDA (Read-Only) ---
+
+data "aws_iam_policy_document" "get_lambda_policy_doc" {
+  # Policy for Read-Only DynamoDB access
+  statement {
+    effect    = "Allow"
+    actions   = ["dynamodb:GetItem"]
+    resources = [aws_dynamodb_table.view_counter_table.arn]
+  }
+  # Policy for CloudWatch logs
+  statement {
+    effect    = "Allow"
+    actions   = ["logs:CreateLogGroup", "logs:CreateLogStream", "logs:PutLogEvents"]
+    resources = ["arn:aws:logs:*:*:*"]
+  }
+}
+
+resource "aws_iam_role" "get_lambda_role" {
+  name = "CloudResumeGetCountLambdaRole"
+  assume_role_policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [{
+      Action    = "sts:AssumeRole"
+      Effect    = "Allow"
+      Principal = { Service = "lambda.amazonaws.com" }
+    }]
+  })
+}
+
+resource "aws_iam_role_policy" "get_lambda_policy" {
+  name   = "CloudResumeGetCountLambdaPolicy"
+  role   = aws_iam_role.get_lambda_role.id
+  policy = data.aws_iam_policy_document.get_lambda_policy_doc.json
+}
+
+# --- "GET_COUNT" LAMBDA FUNCTION (Read-Only) ---
+
+data "archive_file" "get_lambda_zip" {
+  type        = "zip"
+  source_file = "lambda/get_count_function.py"
+  output_path = "get_lambda_function.zip"
+}
+
+resource "aws_lambda_function" "get_view_counter_lambda" {
+  function_name = "getVisitorCount"
+  role          = aws_iam_role.get_lambda_role.arn
+
+  filename         = data.archive_file.get_lambda_zip.output_path
+  handler          = "get_count_function.lambda_handler"
+  source_code_hash = data.archive_file.get_lambda_zip.output_base64sha256
+  runtime          = "python3.12"
+}
+
+# --- API GATEWAY: NEW ROUTE FOR "GET_COUNT" ---
+
+resource "aws_apigatewayv2_integration" "api_get_lambda_integration" {
+  api_id           = aws_apigatewayv2_api.api.id
+  integration_type = "AWS_PROXY"
+  integration_uri  = aws_lambda_function.get_view_counter_lambda.invoke_arn
+}
+
+resource "aws_apigatewayv2_route" "api_get_views_read_only" {
+  api_id    = aws_apigatewayv2_api.api.id
+  route_key = "GET /get-views" # Our new read-only route
+  target    = "integrations/${aws_apigatewayv2_integration.api_get_lambda_integration.id}"
+}
+
+resource "aws_lambda_permission" "api_gateway_get_permission" {
+  statement_id  = "AllowAPIGatewayToInvokeGetLambda"
+  action        = "lambda:InvokeFunction"
+  function_name = aws_lambda_function.get_view_counter_lambda.function_name
+  principal     = "apigateway.amazonaws.com"
+  source_arn    = "${aws_apigatewayv2_api.api.execution_arn}/*/*"
+}

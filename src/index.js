@@ -58,30 +58,53 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
 // --- Visitor Counter ---
 const counters = document.querySelectorAll(".counter-number");
 
-async function updateCounter() {
-
-    // --- DYNAMICALLY GET API URL ---
-    // This 'window.config.apiUrl' variable will come from the 'config.js'
-    // file that our pipeline creates.
-    // Note: The '/views' path is added here.
-    const apiUrl = window.config.apiUrl + "/views";
-    // ---------------------------------
-
+// This function just READS the count
+async function getCount() {
+    const readApiUrl = window.config.apiUrl + "/get-views"; // Our new Read-Only endpoint
     try {
-        let response = await fetch(apiUrl);
+        let response = await fetch(readApiUrl);
         let data = await response.json();
-
         counters.forEach(counter => {
             counter.innerHTML = `👀 Views: ${data.views}`;
         });
-
     } catch (error) {
         console.error("Error fetching visitor count:", error);
-        counters.forEach(counter => {
-            counter.innerHTML = `👀 Views: -`;
-        });
+        counters.forEach(counter => counter.innerHTML = `👀 Views: -`);
     }
 }
 
-// Call the function to update the counter
-updateCounter();
+// This function WRITES (increments) the count
+async function incrementCount() {
+    const writeApiUrl = window.config.apiUrl + "/views"; // Our original Increment endpoint
+    try {
+        let response = await fetch(writeApiUrl);
+        let data = await response.json(); // This response includes the new count
+        counters.forEach(counter => {
+            counter.innerHTML = `👀 Views: ${data.views}`;
+        });
+    } catch (error) {
+        console.error("Error incrementing visitor count:", error);
+        counters.forEach(counter => counter.innerHTML = `👀 Views: -`);
+    }
+}
+
+// Main function to handle logic
+async function handleVisitor() {
+    try {
+        // Check if the user has visited before
+        if (localStorage.getItem('hasVisited') === null) {
+            // User is new. Increment the count and "stamp" them.
+            localStorage.setItem('hasVisited', 'true');
+            await incrementCount(); // This will increment and display the new count
+        } else {
+            // User is a returning visitor. Just get the count.
+            await getCount();
+        }
+    } catch (error) {
+        console.error("Error handling visitor:", error);
+        counters.forEach(counter => counter.innerHTML = `👀 Views: -`);
+    }
+}
+
+// Call the main function on page load
+handleVisitor();

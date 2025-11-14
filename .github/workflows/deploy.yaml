@@ -28,20 +28,36 @@ jobs:
               uses: hashicorp/setup-terraform@v3
 
             - name: Terraform Init
+              working-directory: ./infra
               run: terraform init
 
             - name: Terraform Validate
+              working-directory: ./infra
               run: terraform validate
 
             - name: Terraform Apply
+              working-directory: ./infra
               run: terraform apply -auto-approve
 
-            - name: Upload website files to S3
+            # --- NEW STEP TO CREATE CONFIG FILE ---
+            - name: Generate config.js for Frontend
+              working-directory: ./infra
               run: |
-                  aws s3 sync . s3://resume.chigoziennadi.com \
-                    --exclude ".git/*" \
-                    --exclude ".github/*" \
-                    --exclude "main.tf" \
-                    --exclude ".terraform/*" \
-                    --exclude ".terraform.lock.hcl" \
-                    --delete
+                  API_URL=$(terraform output -raw api_endpoint_url)
+
+                  echo "window.config = { apiUrl: \"$API_URL\" };" > ../src/config.js
+
+                  echo "Generated config.js with URL: $API_URL"
+
+            - name: Upload website files to S3
+              # Sync the 'src' folder, which now INCLUDES the new config.js
+              run: |
+                  aws s3 sync ./src s3://resume.chigoziennadi.com --delete
+
+            - name: Seed the DynamoDB table
+              run: |
+                  aws dynamodb put-item \
+                    --table-name cloud-resume-views \
+                    --item '{"page_id": {"S": "resume"}, "views": {"N": "0"}}' \
+                    --condition-expression "attribute_not_exists(page_id)" \
+                    || echo "Item already exists, skipping seed."
